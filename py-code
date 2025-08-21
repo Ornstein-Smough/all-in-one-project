@@ -1,0 +1,1550 @@
+"""
+Python Learning Suite - Mega Project
+------------------------------------
+This single program combines all previous modules into one menu-driven toolkit.
+
+Modules included:
+1) Basics (variables, IO, operators, type casting)
+   - Temperature converter (C <-> F)
+   - Simple calculator (add, subtract, multiply, divide)
+   - Convert seconds to hours:minutes:seconds
+   - Mini Project: Unit Converter (currency mock, length, weight)
+
+2) Conditionals (if-else)
+   - Even/Odd, Prime, Perfect number checker
+   - Grading system (A-F)
+   - ATM program with balance check
+   - Mini Project: Traffic Light Simulator
+
+3) Loops
+   - Number and star patterns
+   - Factorial, GCD, LCM
+   - Reverse a number (no slicing)
+   - Multiplication table generator
+   - Mini Project: Guess-the-Number Game
+
+4) Functions
+   - Prime number function
+   - Fibonacci function
+   - Simple and compound interest
+   - BMI calculator
+   - Mini Project: Student Grade Calculator
+
+5) Strings
+   - Palindrome checker
+   - Vowel and consonant counter
+   - Most repeated character
+   - Caesar Cipher (encrypt/decrypt)
+   - Mini Project: Text Analyzer
+
+6) Lists and Tuples
+   - Manage student marks (average, min, max)
+   - Shopping cart (add/remove)
+   - Find unique items from a list
+   - Mini Project: Simple To-Do List
+
+7) Sets and Dictionaries
+   - Word frequency counter (dictionary)
+   - Contact book (dictionary)
+   - Set operations (union, intersection, difference)
+   - Mini Project: Address Book
+
+8) File Handling
+   - Save/load student grades
+   - Word/line/character counter in a file
+   - Save shopping list to a file
+   - Mini Project: Persistent To-Do List
+
+9) Error Handling
+   - Handle division by zero in calculator
+   - File not found handler
+   - Ask for a valid integer until entered
+   - Mini Project: Safe Banking System
+
+10) Object-Oriented Programming
+    - BankAccount class (deposit/withdraw)
+    - Student class (marks, grade)
+    - Library system (borrow/return)
+    - Mini Project: Employee Payroll System
+
+11) Problem-Solving and Algorithms
+    - Linear and binary search
+    - Bubble, Selection, Insertion sort
+    - Recursion: factorial, Fibonacci
+    - Tower of Hanoi
+    - Mini Project: Flashcard Quiz App
+
+12) Integration Final Projects (choose inside submenu)
+    - Student Result Management System
+    - Banking System with File Storage
+    - Tic Tac Toe Game (2 players)
+    - Expense Tracker (file storage)
+"""
+
+import os
+import random
+from collections import Counter
+
+# -------------------------------
+# Utility helpers shared across modules
+# -------------------------------
+
+def input_int(prompt):
+    while True:
+        try:
+            return int(input(prompt).strip())
+        except ValueError:
+            print("Enter a valid integer.")
+
+def input_float(prompt):
+    while True:
+        try:
+            return float(input(prompt).strip())
+        except ValueError:
+            print("Enter a valid number.")
+
+def pause():
+    input("\nPress Enter to continue...")
+
+# -------------------------------
+# 1) BASICS
+# -------------------------------
+
+def temperature_converter():
+    print("\nTemperature Converter")
+    print("1) Celsius to Fahrenheit")
+    print("2) Fahrenheit to Celsius")
+    ch = input("Choose 1 or 2: ").strip()
+    if ch == "1":
+        c = input_float("Enter Celsius: ")
+        f = (c * 9 / 5) + 32
+        print("Fahrenheit:", f)
+    elif ch == "2":
+        f = input_float("Enter Fahrenheit: ")
+        c = (f - 32) * 5 / 9
+        print("Celsius:", c)
+    else:
+        print("Invalid choice.")
+
+def simple_calculator():
+    print("\nSimple Calculator")
+    a = input_float("Enter first number: ")
+    b = input_float("Enter second number: ")
+    op = input("Enter operation (+, -, *, /): ").strip()
+    if op == "+":
+        print("Result:", a + b)
+    elif op == "-":
+        print("Result:", a - b)
+    elif op == "*":
+        print("Result:", a * b)
+    elif op == "/":
+        if b == 0:
+            print("Error: Division by zero.")
+        else:
+            print("Result:", a / b)
+    else:
+        print("Invalid operator.")
+
+def seconds_to_hms():
+    print("\nSeconds to H:M:S")
+    s = input_int("Enter total seconds: ")
+    if s < 0:
+        print("Seconds cannot be negative.")
+        return
+    h = s // 3600
+    m = (s % 3600) // 60
+    sec = s % 60
+    print(f"{h:02d}:{m:02d}:{sec:02d}")
+
+def unit_converter():
+    print("\nUnit Converter")
+    print("1) Length (meters <-> kilometers)")
+    print("2) Weight (kg <-> grams)")
+    print("3) Currency mock (USD <-> EUR, fixed rate)")
+    ch = input("Choose 1-3: ").strip()
+    if ch == "1":
+        print("a) meters to kilometers")
+        print("b) kilometers to meters")
+        op = input("Choose a or b: ").strip().lower()
+        if op == "a":
+            m = input_float("Meters: ")
+            print("Kilometers:", m / 1000.0)
+        elif op == "b":
+            km = input_float("Kilometers: ")
+            print("Meters:", km * 1000.0)
+        else:
+            print("Invalid option.")
+    elif ch == "2":
+        print("a) kg to grams")
+        print("b) grams to kg")
+        op = input("Choose a or b: ").strip().lower()
+        if op == "a":
+            kg = input_float("Kilograms: ")
+            print("Grams:", kg * 1000.0)
+        elif op == "b":
+            g = input_float("Grams: ")
+            print("Kilograms:", g / 1000.0)
+        else:
+            print("Invalid option.")
+    elif ch == "3":
+        rate = 0.9  # mock fixed rate for demo
+        print("a) USD to EUR")
+        print("b) EUR to USD")
+        op = input("Choose a or b: ").strip().lower()
+        if op == "a":
+            usd = input_float("USD: ")
+            print("EUR:", usd * rate)
+        elif op == "b":
+            eur = input_float("EUR: ")
+            print("USD:", eur / rate if rate != 0 else 0)
+        else:
+            print("Invalid option.")
+    else:
+        print("Invalid choice.")
+
+def basics_menu():
+    while True:
+        print("\n=== BASICS ===")
+        print("1) Temperature Converter")
+        print("2) Simple Calculator")
+        print("3) Seconds to H:M:S")
+        print("4) Unit Converter (Mini Project)")
+        print("5) Back")
+        ch = input("Choose 1-5: ").strip()
+        if ch == "1":
+            temperature_converter(); pause()
+        elif ch == "2":
+            simple_calculator(); pause()
+        elif ch == "3":
+            seconds_to_hms(); pause()
+        elif ch == "4":
+            unit_converter(); pause()
+        elif ch == "5":
+            break
+        else:
+            print("Invalid choice.")
+
+# -------------------------------
+# 2) CONDITIONALS
+# -------------------------------
+
+def is_prime_num(n):
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i += 6
+    return True
+
+def is_perfect_num(n):
+    if n <= 1:
+        return False
+    s = 1
+    i = 2
+    while i * i <= n:
+        if n % i == 0:
+            s += i
+            if i != n // i:
+                s += n // i
+        i += 1
+    return s == n
+
+def even_odd_prime_perfect():
+    n = input_int("Enter an integer: ")
+    print("Even" if n % 2 == 0 else "Odd")
+    print("Prime" if is_prime_num(n) else "Not Prime")
+    print("Perfect" if is_perfect_num(n) else "Not Perfect")
+
+def grading_system():
+    m = input_int("Enter average marks (0-100): ")
+    if m < 0 or m > 100:
+        print("Invalid marks.")
+        return
+    if m >= 90:
+        g = "A"
+    elif m >= 80:
+        g = "B"
+    elif m >= 70:
+        g = "C"
+    elif m >= 60:
+        g = "D"
+    else:
+        g = "F"
+    print("Grade:", g)
+
+def atm_program():
+    balance = 1000.0
+    print("ATM Program (starting balance 1000.0)")
+    while True:
+        print("Options: deposit, withdraw, balance, exit")
+        op = input("Choose: ").strip().lower()
+        if op == "deposit":
+            amt = input_float("Amount: ")
+            if amt > 0:
+                balance += amt
+                print("Deposited.")
+            else:
+                print("Amount must be positive.")
+        elif op == "withdraw":
+            amt = input_float("Amount: ")
+            if amt <= 0:
+                print("Amount must be positive.")
+            elif amt > balance:
+                print("Insufficient funds.")
+            else:
+                balance -= amt
+                print("Withdrew.")
+        elif op == "balance":
+            print("Balance:", balance)
+        elif op == "exit":
+            break
+        else:
+            print("Invalid choice.")
+
+def traffic_light_simulator():
+    print("Traffic Light Simulator")
+    color = input("Enter light color (green/yellow/red): ").strip().lower()
+    if color == "green":
+        print("Go")
+    elif color == "yellow":
+        print("Wait")
+    elif color == "red":
+        print("Stop")
+    else:
+        print("Invalid color.")
+
+def conditionals_menu():
+    while True:
+        print("\n=== CONDITIONALS ===")
+        print("1) Even/Odd, Prime, Perfect")
+        print("2) Grading System")
+        print("3) ATM Program")
+        print("4) Traffic Light Simulator")
+        print("5) Back")
+        ch = input("Choose 1-5: ").strip()
+        if ch == "1":
+            even_odd_prime_perfect(); pause()
+        elif ch == "2":
+            grading_system(); pause()
+        elif ch == "3":
+            atm_program(); pause()
+        elif ch == "4":
+            traffic_light_simulator(); pause()
+        elif ch == "5":
+            break
+        else:
+            print("Invalid choice.")
+
+# -------------------------------
+# 3) LOOPS
+# -------------------------------
+
+def patterns():
+    n = input_int("Rows: ")
+    if n <= 0:
+        print("Rows must be positive.")
+        return
+    print("\nStar Pattern:")
+    for i in range(1, n + 1):
+        print("* " * i)
+    print("\nNumber Pattern:")
+    for i in range(1, n + 1):
+        for j in range(1, i + 1):
+            print(j, end=" ")
+        print()
+
+def factorial(n):
+    res = 1
+    for i in range(2, n + 1):
+        res *= i
+    return res
+
+def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return abs(a)
+
+def lcm(a, b):
+    g = gcd(a, b)
+    return abs(a * b) // g if g != 0 else 0
+
+def math_loops():
+    print("1) Factorial  2) GCD  3) LCM")
+    ch = input("Choose 1-3: ").strip()
+    if ch == "1":
+        n = input_int("n: ")
+        if n < 0:
+            print("Invalid.")
+            return
+        print("Factorial:", factorial(n))
+    elif ch == "2":
+        a = input_int("a: "); b = input_int("b: ")
+        print("GCD:", gcd(a, b))
+    elif ch == "3":
+        a = input_int("a: "); b = input_int("b: ")
+        print("LCM:", lcm(a, b))
+    else:
+        print("Invalid choice.")
+
+def reverse_number():
+    num = input_int("Enter an integer: ")
+    sign = -1 if num < 0 else 1
+    n = abs(num)
+    rev = 0
+    while n > 0:
+        d = n % 10
+        rev = rev * 10 + d
+        n //= 10
+    print("Reversed:", sign * rev)
+
+def multiplication_table():
+    n = input_int("Number: ")
+    upto = input_int("Range (e.g., 10): ")
+    if upto <= 0:
+        print("Range must be positive.")
+        return
+    for i in range(1, upto + 1):
+        print(f"{n} x {i} = {n * i}")
+
+def guess_number():
+    print("Guess the Number")
+    low = input_int("Lower bound: ")
+    high = input_int("Upper bound: ")
+    if low >= high:
+        print("Invalid bounds.")
+        return
+    secret = random.randint(low, high)
+    attempts = 0
+    while True:
+        try:
+            g = int(input("Your guess: ").strip())
+        except ValueError:
+            print("Enter an integer.")
+            continue
+        attempts += 1
+        if g < secret:
+            print("Too low.")
+        elif g > secret:
+            print("Too high.")
+        else:
+            print(f"Correct. Attempts: {attempts}")
+            break
+
+def loops_menu():
+    while True:
+        print("\n=== LOOPS ===")
+        print("1) Patterns")
+        print("2) Factorial/GCD/LCM")
+        print("3) Reverse Number")
+        print("4) Multiplication Table")
+        print("5) Guess-the-Number (Mini Project)")
+        print("6) Back")
+        ch = input("Choose 1-6: ").strip()
+        if ch == "1":
+            patterns(); pause()
+        elif ch == "2":
+            math_loops(); pause()
+        elif ch == "3":
+            reverse_number(); pause()
+        elif ch == "4":
+            multiplication_table(); pause()
+        elif ch == "5":
+            guess_number(); pause()
+        elif ch == "6":
+            break
+        else:
+            print("Invalid choice.")
+
+# -------------------------------
+# 4) FUNCTIONS
+# -------------------------------
+
+def fn_is_prime(n):
+    return is_prime_num(n)
+
+def fn_fibonacci(n):
+    if n <= 0:
+        return []
+    if n == 1:
+        return [0]
+    if n == 2:
+        return [0, 1]
+    seq = [0, 1]
+    for i in range(2, n):
+        seq.append(seq[-1] + seq[-2])
+    return seq
+
+def simple_interest(p, r, t):
+    return (p * r * t) / 100.0
+
+def compound_interest(p, r, t):
+    return p * ((1 + r / 100.0) ** t) - p
+
+def calculate_bmi(weight, height):
+    if height <= 0:
+        return None, "Invalid height"
+    bmi = weight / (height * height)
+    if bmi < 18.5:
+        cat = "Underweight"
+    elif bmi < 25:
+        cat = "Normal"
+    elif bmi < 30:
+        cat = "Overweight"
+    else:
+        cat = "Obese"
+    return bmi, cat
+
+def student_grade_calculator():
+    try:
+        n = input_int("Number of subjects: ")
+        if n <= 0:
+            print("Must be at least 1.")
+            return
+    except ValueError:
+        print("Invalid.")
+        return
+    marks = []
+    for i in range(n):
+        m = input_float(f"Mark {i + 1} (0-100): ")
+        if m < 0 or m > 100:
+            print("Invalid mark.")
+            return
+        marks.append(m)
+    avg = sum(marks) / len(marks)
+    if avg >= 90:
+        g = "A"
+    elif avg >= 80:
+        g = "B"
+    elif avg >= 70:
+        g = "C"
+    elif avg >= 60:
+        g = "D"
+    else:
+        g = "F"
+    print(f"Average: {avg:.2f}  Grade: {g}  Result: {'Pass' if avg >= 40 else 'Fail'}")
+
+def functions_menu():
+    while True:
+        print("\n=== FUNCTIONS ===")
+        print("1) Prime Number Checker")
+        print("2) Fibonacci Sequence")
+        print("3) Simple and Compound Interest")
+        print("4) BMI Calculator")
+        print("5) Student Grade Calculator (Mini Project)")
+        print("6) Back")
+        ch = input("Choose 1-6: ").strip()
+        if ch == "1":
+            n = input_int("Number: "); print("Prime" if fn_is_prime(n) else "Not Prime"); pause()
+        elif ch == "2":
+            n = input_int("Terms: "); print(fn_fibonacci(n)); pause()
+        elif ch == "3":
+            p = input_float("Principal: "); r = input_float("Rate%: "); t = input_float("Time (years): ")
+            print("Simple Interest:", simple_interest(p, r, t))
+            print("Compound Interest:", compound_interest(p, r, t)); pause()
+        elif ch == "4":
+            w = input_float("Weight (kg): "); h = input_float("Height (m): ")
+            bmi, cat = calculate_bmi(w, h)
+            if bmi is None:
+                print(cat)
+            else:
+                print(f"BMI: {bmi:.2f}  Category: {cat}"); pause()
+        elif ch == "5":
+            student_grade_calculator(); pause()
+        elif ch == "6":
+            break
+        else:
+            print("Invalid choice.")
+
+# -------------------------------
+# 5) STRINGS
+# -------------------------------
+
+def is_palindrome(text):
+    cleaned = "".join(ch.lower() for ch in text if ch.isalnum())
+    return cleaned == cleaned[::-1]
+
+def count_vowels_consonants(text):
+    vowels = "aeiou"
+    v = 0; c = 0
+    for ch in text.lower():
+        if ch.isalpha():
+            if ch in vowels:
+                v += 1
+            else:
+                c += 1
+    return v, c
+
+def most_repeated_char(text):
+    freq = Counter(ch for ch in text if ch.isalnum())
+    if not freq:
+        return None, 0
+    ch, count = freq.most_common(1)[0]
+    return ch, count
+
+def caesar_cipher(text, shift, mode="encrypt"):
+    if mode == "decrypt":
+        shift = -shift
+    out = []
+    for ch in text:
+        if ch.isalpha():
+            base = ord("A") if ch.isupper() else ord("a")
+            out.append(chr((ord(ch) - base + shift) % 26 + base))
+        else:
+            out.append(ch)
+    return "".join(out)
+
+def text_analyzer(text):
+    words = [w.strip(".,!?;:") for w in text.lower().split()]
+    if not words:
+        return {"word_count": 0, "most_frequent": None, "longest_word": None}
+    freq = Counter(words)
+    most_word = freq.most_common(1)[0][0]
+    longest = max(words, key=len)
+    return {"word_count": len(words), "most_frequent": most_word, "longest_word": longest}
+
+def strings_menu():
+    while True:
+        print("\n=== STRINGS ===")
+        print("1) Palindrome Checker")
+        print("2) Vowel/Consonant Counter")
+        print("3) Most Repeated Character")
+        print("4) Caesar Cipher")
+        print("5) Text Analyzer (Mini Project)")
+        print("6) Back")
+        ch = input("Choose 1-6: ").strip()
+        if ch == "1":
+            t = input("Text: "); print("Palindrome" if is_palindrome(t) else "Not a palindrome"); pause()
+        elif ch == "2":
+            t = input("Text: "); v, c = count_vowels_consonants(t); print(f"Vowels: {v}, Consonants: {c}"); pause()
+        elif ch == "3":
+            t = input("Text: "); ch1, cnt = most_repeated_char(t); print(f"Most: {ch1} ({cnt})" if ch1 else "None"); pause()
+        elif ch == "4":
+            t = input("Text: "); s = input_int("Shift: "); m = input("Encrypt or Decrypt (e/d): ").strip().lower()
+            print(caesar_cipher(t, s, "decrypt" if m.startswith("d") else "encrypt")); pause()
+        elif ch == "5":
+            t = input("Text: "); res = text_analyzer(t); print(res); pause()
+        elif ch == "6":
+            break
+        else:
+            print("Invalid choice.")
+
+# -------------------------------
+# 6) LISTS AND TUPLES
+# -------------------------------
+
+def student_marks_manager():
+    marks = []
+    while True:
+        entry = input("Enter a mark (0-100) or 'done': ").strip().lower()
+        if entry == "done":
+            break
+        try:
+            m = float(entry)
+            if 0 <= m <= 100:
+                marks.append(m)
+            else:
+                print("Enter 0-100.")
+        except ValueError:
+            print("Invalid.")
+    if marks:
+        print("Marks:", marks)
+        print("Average:", sum(marks) / len(marks))
+        print("Min:", min(marks))
+        print("Max:", max(marks))
+    else:
+        print("No marks entered.")
+
+def shopping_cart():
+    cart = []
+    while True:
+        print("Cart:", cart)
+        op = input("Options: add, remove, exit: ").strip().lower()
+        if op == "add":
+            item = input("Item: ").strip()
+            cart.append(item)
+        elif op == "remove":
+            item = input("Item: ").strip()
+            if item in cart:
+                cart.remove(item)
+            else:
+                print("Not in cart.")
+        elif op == "exit":
+            print("Final cart:", cart)
+            break
+        else:
+            print("Invalid.")
+
+def find_unique_items():
+    items = input("Enter items separated by spaces: ").split()
+    print("Unique:", list(set(items)))
+
+def todo_simple():
+    tasks = []
+    while True:
+        print("Tasks:", tasks)
+        op = input("Options: add, complete, exit: ").strip().lower()
+        if op == "add":
+            t = input("Task: ").strip()
+            tasks.append((t, False))
+        elif op == "complete":
+            name = input("Task name: ").strip()
+            for i, (tn, done) in enumerate(tasks):
+                if tn == name and not done:
+                    tasks[i] = (tn, True)
+                    print("Marked complete.")
+                    break
+            else:
+                print("Not found or already completed.")
+        elif op == "exit":
+            for t, done in tasks:
+                print(f"{t} [{'Done' if done else 'Pending'}]")
+            break
+        else:
+            print("Invalid.")
+
+def lists_tuples_menu():
+    while True:
+        print("\n=== LISTS AND TUPLES ===")
+        print("1) Student Marks Manager")
+        print("2) Shopping Cart")
+        print("3) Unique Items Finder")
+        print("4) Simple To-Do List (Mini Project)")
+        print("5) Back")
+        ch = input("Choose 1-5: ").strip()
+        if ch == "1":
+            student_marks_manager(); pause()
+        elif ch == "2":
+            shopping_cart(); pause()
+        elif ch == "3":
+            find_unique_items(); pause()
+        elif ch == "4":
+            todo_simple(); pause()
+        elif ch == "5":
+            break
+        else:
+            print("Invalid choice.")
+
+# -------------------------------
+# 7) SETS AND DICTIONARIES
+# -------------------------------
+
+def word_frequency():
+    text = input("Enter text: ").lower()
+    words = text.split()
+    freq = Counter(words)
+    for w, c in freq.items():
+        print(w, ":", c)
+
+def contact_book():
+    contacts = {}
+    while True:
+        print("Options: add, search, remove, exit")
+        ch = input("Choose: ").strip().lower()
+        if ch == "add":
+            name = input("Name: ").strip()
+            phone = input("Phone: ").strip()
+            email = input("Email: ").strip()
+            contacts[name] = {"phone": phone, "email": email}
+        elif ch == "search":
+            name = input("Name: ").strip()
+            if name in contacts:
+                print(contacts[name])
+            else:
+                print("Not found.")
+        elif ch == "remove":
+            name = input("Name: ").strip()
+            if name in contacts:
+                del contacts[name]
+                print("Removed.")
+            else:
+                print("Not found.")
+        elif ch == "exit":
+            break
+        else:
+            print("Invalid.")
+
+def set_operations():
+    set1 = set(input("Set1 elements (space separated): ").split())
+    set2 = set(input("Set2 elements (space separated): ").split())
+    print("Union:", set1 | set2)
+    print("Intersection:", set1 & set2)
+    print("Diff Set1-Set2:", set1 - set2)
+    print("Diff Set2-Set1:", set2 - set1)
+
+def address_book():
+    book = {}
+    while True:
+        print("Options: add, update, search, remove, exit")
+        ch = input("Choose: ").strip().lower()
+        if ch == "add":
+            name = input("Name: ").strip()
+            address = input("Address: ").strip()
+            phone = input("Phone: ").strip()
+            email = input("Email: ").strip()
+            book[name] = {"address": address, "phone": phone, "email": email}
+        elif ch == "update":
+            name = input("Name: ").strip()
+            if name in book:
+                address = input("Address: ").strip()
+                phone = input("Phone: ").strip()
+                email = input("Email: ").strip()
+                book[name] = {"address": address, "phone": phone, "email": email}
+                print("Updated.")
+            else:
+                print("Not found.")
+        elif ch == "search":
+            name = input("Name: ").strip()
+            print(book.get(name, "Not found."))
+        elif ch == "remove":
+            name = input("Name: ").strip()
+            if name in book:
+                del book[name]; print("Removed.")
+            else:
+                print("Not found.")
+        elif ch == "exit":
+            print("Final Address Book:", book)
+            break
+        else:
+            print("Invalid.")
+
+def sets_dicts_menu():
+    while True:
+        print("\n=== SETS AND DICTIONARIES ===")
+        print("1) Word Frequency")
+        print("2) Contact Book")
+        print("3) Set Operations")
+        print("4) Address Book (Mini Project)")
+        print("5) Back")
+        ch = input("Choose 1-5: ").strip()
+        if ch == "1":
+            word_frequency(); pause()
+        elif ch == "2":
+            contact_book(); pause()
+        elif ch == "3":
+            set_operations(); pause()
+        elif ch == "4":
+            address_book(); pause()
+        elif ch == "5":
+            break
+        else:
+            print("Invalid choice.")
+
+# -------------------------------
+# 8) FILE HANDLING
+# -------------------------------
+
+def student_grades_file():
+    filename = "grades.txt"
+    while True:
+        print("Options: add, view, exit")
+        ch = input("Choose: ").strip().lower()
+        if ch == "add":
+            name = input("Name: ").strip()
+            grade = input("Grade: ").strip()
+            with open(filename, "a", encoding="utf-8") as f:
+                f.write(f"{name},{grade}\n")
+            print("Saved.")
+        elif ch == "view":
+            if os.path.exists(filename):
+                with open(filename, "r", encoding="utf-8") as f:
+                    content = f.read().strip()
+                    print(content if content else "No grades.")
+            else:
+                print("No file found.")
+        elif ch == "exit":
+            break
+        else:
+            print("Invalid.")
+
+def file_statistics():
+    filename = input("Filename: ").strip()
+    if not os.path.exists(filename):
+        print("File not found.")
+        return
+    with open(filename, "r", encoding="utf-8") as f:
+        text = f.read()
+    print("Lines:", len(text.splitlines()))
+    print("Words:", len(text.split()))
+    print("Characters:", len(text))
+
+def shopping_list_file():
+    filename = "shopping_list.txt"
+    while True:
+        print("Options: add, view, exit")
+        ch = input("Choose: ").strip().lower()
+        if ch == "add":
+            item = input("Item: ").strip()
+            with open(filename, "a", encoding="utf-8") as f:
+                f.write(item + "\n")
+            print("Added.")
+        elif ch == "view":
+            if os.path.exists(filename):
+                with open(filename, "r", encoding="utf-8") as f:
+                    items = [line.strip() for line in f if line.strip()]
+                print("Items:" if items else "Empty list.")
+                for it in items:
+                    print("-", it)
+            else:
+                print("No list found.")
+        elif ch == "exit":
+            break
+        else:
+            print("Invalid.")
+
+def persistent_todo_file():
+    filename = "todo.txt"
+    tasks = []
+    if os.path.exists(filename):
+        with open(filename, "r", encoding="utf-8") as f:
+            for line in f:
+                if "|" in line:
+                    task, done = line.strip().split("|")
+                    tasks.append((task, done == "True"))
+    while True:
+        for i, (t, d) in enumerate(tasks, start=1):
+            print(f"{i}. {t} [{'Done' if d else 'Pending'}]")
+        print("Options: add, complete, save, exit")
+        ch = input("Choose: ").strip().lower()
+        if ch == "add":
+            t = input("Task: ").strip()
+            tasks.append((t, False))
+        elif ch == "complete":
+            n = input_int("Task number: ")
+            if 1 <= n <= len(tasks):
+                t, _ = tasks[n - 1]
+                tasks[n - 1] = (t, True)
+                print("Completed.")
+            else:
+                print("Invalid number.")
+        elif ch == "save":
+            with open(filename, "w", encoding="utf-8") as f:
+                for t, d in tasks:
+                    f.write(f"{t}|{d}\n")
+            print("Saved.")
+        elif ch == "exit":
+            break
+        else:
+            print("Invalid.")
+
+def file_handling_menu():
+    while True:
+        print("\n=== FILE HANDLING ===")
+        print("1) Save/Load Student Grades")
+        print("2) File Word/Line/Character Counter")
+        print("3) Save Shopping List to File")
+        print("4) Persistent To-Do List (Mini Project)")
+        print("5) Back")
+        ch = input("Choose 1-5: ").strip()
+        if ch == "1":
+            student_grades_file(); pause()
+        elif ch == "2":
+            file_statistics(); pause()
+        elif ch == "3":
+            shopping_list_file(); pause()
+        elif ch == "4":
+            persistent_todo_file(); pause()
+        elif ch == "5":
+            break
+        else:
+            print("Invalid choice.")
+
+# -------------------------------
+# 9) ERROR HANDLING
+# -------------------------------
+
+def safe_calculator():
+    try:
+        a = float(input("a: ").strip())
+        b = float(input("b: ").strip())
+        op = input("op (+ - * /): ").strip()
+        if op == "+":
+            print(a + b)
+        elif op == "-":
+            print(a - b)
+        elif op == "*":
+            print(a * b)
+        elif op == "/":
+            try:
+                print(a / b)
+            except ZeroDivisionError:
+                print("Division by zero not allowed.")
+        else:
+            print("Invalid op.")
+    except ValueError:
+        print("Enter valid numbers.")
+
+def safe_file_reader():
+    name = input("Filename: ").strip()
+    try:
+        with open(name, "r", encoding="utf-8") as f:
+            print(f.read())
+    except FileNotFoundError:
+        print("File not found.")
+
+def valid_integer_until_ok():
+    while True:
+        try:
+            n = int(input("Enter integer: ").strip())
+            print("OK:", n)
+            break
+        except ValueError:
+            print("Try again.")
+
+def safe_banking_system():
+    balance = 1000.0
+    while True:
+        print(f"Balance: {balance}")
+        ch = input("Options: deposit, withdraw, exit: ").strip().lower()
+        if ch == "deposit":
+            try:
+                amt = float(input("Amount: ").strip())
+                if amt <= 0: print("Must be positive.")
+                else:
+                    balance += amt; print("Deposited.")
+            except ValueError:
+                print("Invalid number.")
+        elif ch == "withdraw":
+            try:
+                amt = float(input("Amount: ").strip())
+                if amt <= 0: print("Must be positive.")
+                elif amt > balance: print("Insufficient.")
+                else:
+                    balance -= amt; print("Withdrew.")
+            except ValueError:
+                print("Invalid number.")
+        elif ch == "exit":
+            print("Final balance:", balance); break
+        else:
+            print("Invalid.")
+
+def error_handling_menu():
+    while True:
+        print("\n=== ERROR HANDLING ===")
+        print("1) Safe Calculator")
+        print("2) Safe File Reader")
+        print("3) Valid Integer Until Entered")
+        print("4) Safe Banking System (Mini Project)")
+        print("5) Back")
+        ch = input("Choose 1-5: ").strip()
+        if ch == "1":
+            safe_calculator(); pause()
+        elif ch == "2":
+            safe_file_reader(); pause()
+        elif ch == "3":
+            valid_integer_until_ok(); pause()
+        elif ch == "4":
+            safe_banking_system(); pause()
+        elif ch == "5":
+            break
+        else:
+            print("Invalid choice.")
+
+# -------------------------------
+# 10) OOP
+# -------------------------------
+
+class BankAccount:
+    def _init_(self, owner, balance=0.0):
+        self.owner = owner
+        self.balance = balance
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance += amount; print("Deposited.")
+        else:
+            print("Amount must be positive.")
+    def withdraw(self, amount):
+        if amount <= 0:
+            print("Amount must be positive.")
+        elif amount > self.balance:
+            print("Insufficient funds.")
+        else:
+            self.balance -= amount; print("Withdrew.")
+    def _str_(self):
+        return f"BankAccount(owner={self.owner}, balance={self.balance})"
+
+class StudentOOP:
+    def _init_(self, name, marks):
+        self.name = name; self.marks = marks
+    def average(self):
+        return sum(self.marks) / len(self.marks)
+    def grade(self):
+        a = self.average()
+        if a >= 90: return "A"
+        if a >= 75: return "B"
+        if a >= 50: return "C"
+        return "F"
+
+class Library:
+    def _init_(self, books):
+        self.books = books
+    def display_books(self):
+        print("Books:"); [print("-", b) for b in self.books]
+    def borrow_book(self, book):
+        if book in self.books:
+            self.books.remove(book); print("Borrowed:", book)
+        else:
+            print("Not available.")
+    def return_book(self, book):
+        self.books.append(book); print("Returned:", book)
+
+class Employee:
+    def _init_(self, name, emp_id, salary):
+        self.name = name; self.emp_id = emp_id; self.salary = salary
+    def display(self):
+        print(f"{self.emp_id} - {self.name} - {self.salary}")
+
+class PayrollSystem:
+    def _init_(self):
+        self.employees = []
+    def add_employee(self, e):
+        self.employees.append(e); print("Added.")
+    def display_all(self):
+        print("Employees:"); [emp.display() for emp in self.employees]
+    def total_salary(self):
+        print("Total:", sum(e.salary for e in self.employees))
+
+def oop_menu():
+    while True:
+        print("\n=== OOP ===")
+        print("1) Bank Account demo")
+        print("2) Student demo")
+        print("3) Library demo")
+        print("4) Employee Payroll (Mini Project)")
+        print("5) Back")
+        ch = input("Choose 1-5: ").strip()
+        if ch == "1":
+            acc = BankAccount("Alice", 500); print(acc); acc.deposit(200); acc.withdraw(100); acc.withdraw(700); print(acc); pause()
+        elif ch == "2":
+            stu = StudentOOP("Bob", [85, 92, 78, 90]); print(stu.name, "Avg:", stu.average(), "Grade:", stu.grade()); pause()
+        elif ch == "3":
+            lib = Library(["Python 101", "OOP Basics", "Data Science"])
+            lib.display_books(); lib.borrow_book("Python 101"); lib.display_books(); lib.return_book("Python 101"); lib.display_books(); pause()
+        elif ch == "4":
+            p = PayrollSystem()
+            p.add_employee(Employee("Charlie", 101, 5000))
+            p.add_employee(Employee("Diana", 102, 7000))
+            p.display_all(); p.total_salary(); pause()
+        elif ch == "5":
+            break
+        else:
+            print("Invalid choice.")
+
+# -------------------------------
+# 11) ALGORITHMS
+# -------------------------------
+
+def linear_search(arr, target):
+    for i in range(len(arr)):
+        if arr[i] == target:
+            return i
+    return -1
+
+def binary_search(arr, target):
+    low, high = 0, len(arr) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+    return -1
+
+def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr
+
+def selection_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        mi = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[mi]:
+                mi = j
+        arr[i], arr[mi] = arr[mi], arr[i]
+    return arr
+
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        k = arr[i]; j = i - 1
+        while j >= 0 and k < arr[j]:
+            arr[j + 1] = arr[j]; j -= 1
+        arr[j + 1] = k
+    return arr
+
+def rec_factorial(n):
+    if n <= 1:
+        return 1
+    return n * rec_factorial(n - 1)
+
+def rec_fibonacci(n):
+    if n <= 1:
+        return n
+    return rec_fibonacci(n - 1) + rec_fibonacci(n - 2)
+
+def tower_of_hanoi(n, src, tgt, aux):
+    if n == 1:
+        print(f"Move disk 1 from {src} to {tgt}")
+        return
+    tower_of_hanoi(n - 1, src, aux, tgt)
+    print(f"Move disk {n} from {src} to {tgt}")
+    tower_of_hanoi(n - 1, aux, tgt, src)
+
+class FlashcardQuiz:
+    def _init_(self):
+        self.qa = {
+            "What is the capital of France?": "Paris",
+            "What is 5 * 6?": "30",
+            "Who wrote Hamlet?": "Shakespeare",
+            "Square root of 64?": "8",
+            "Chemical symbol for water?": "H2O"
+        }
+        self.score = 0
+    def start(self):
+        items = list(self.qa.items())
+        random.shuffle(items)
+        for q, a in items:
+            u = input(q + " ").strip()
+            if u.lower() == a.lower():
+                print("Correct."); self.score += 1
+            else:
+                print("Wrong. Correct:", a)
+        print("Score:", self.score, "/", len(items))
+
+def algorithms_menu():
+    while True:
+        print("\n=== ALGORITHMS ===")
+        print("1) Linear and Binary Search")
+        print("2) Sorting (Bubble, Selection, Insertion)")
+        print("3) Recursion (Factorial, Fibonacci)")
+        print("4) Tower of Hanoi")
+        print("5) Flashcard Quiz (Mini Project)")
+        print("6) Back")
+        ch = input("Choose 1-6: ").strip()
+        if ch == "1":
+            arr = [3, 7, 2, 9, 12, 5]; target = 9
+            print("Array:", arr)
+            print("Linear search index:", linear_search(arr, target))
+            s = sorted(arr)
+            print("Sorted:", s)
+            print("Binary search index:", binary_search(s, target)); pause()
+        elif ch == "2":
+            arr = [64, 25, 12, 22, 11]
+            print("Original:", arr)
+            print("Bubble:", bubble_sort(arr.copy()))
+            print("Selection:", selection_sort(arr.copy()))
+            print("Insertion:", insertion_sort(arr.copy())); pause()
+        elif ch == "3":
+            n = input_int("n for factorial and fibonacci: ")
+            if n < 0:
+                print("Invalid.")
+            else:
+                print("Factorial:", rec_factorial(n))
+                print("Fibonacci:", rec_fibonacci(n)); pause()
+        elif ch == "4":
+            n = input_int("Number of disks: ")
+            if n <= 0:
+                print("Invalid.")
+            else:
+                tower_of_hanoi(n, "A", "C", "B"); pause()
+        elif ch == "5":
+            FlashcardQuiz().start(); pause()
+        elif ch == "6":
+            break
+        else:
+            print("Invalid choice.")
+
+# -------------------------------
+# 12) INTEGRATION FINAL PROJECTS
+# -------------------------------
+
+# A) Student Result Management System
+class Student:
+    def _init_(self, roll_no, name, marks):
+        self.roll_no = roll_no
+        self.name = name
+        self.marks = marks
+    def average(self):
+        return sum(self.marks) / len(self.marks)
+    def grade(self):
+        a = self.average()
+        if a >= 90: return "A"
+        if a >= 75: return "B"
+        if a >= 50: return "C"
+        return "F"
+    def status(self):
+        return "Pass" if self.average() >= 50 else "Fail"
+    def _str_(self):
+        return f"{self.roll_no},{self.name},{'|'.join(map(str, self.marks))}"
+    @staticmethod
+    def from_string(line):
+        parts = line.strip().split(",")
+        return Student(parts[0], parts[1], list(map(int, parts[2].split("|"))))
+
+SRMS_FILE = "students.txt"
+
+def srms_add():
+    roll = input("Roll: ").strip()
+    name = input("Name: ").strip()
+    try:
+        marks = list(map(int, input("Marks (comma-separated): ").split(",")))
+    except ValueError:
+        print("Invalid marks.")
+        return
+    with open(SRMS_FILE, "a", encoding="utf-8") as f:
+        f.write(str(Student(roll, name, marks)) + "\n")
+    print("Saved.")
+
+def srms_display():
+    if not os.path.exists(SRMS_FILE):
+        print("No records.")
+        return
+    with open(SRMS_FILE, "r", encoding="utf-8") as f:
+        for line in f:
+            if not line.strip(): continue
+            s = Student.from_string(line)
+            print(f"Roll: {s.roll_no} Name: {s.name} Avg: {s.average():.2f} Grade: {s.grade()} Status: {s.status()}")
+
+def srms_search():
+    roll = input("Roll to search: ").strip()
+    if not os.path.exists(SRMS_FILE):
+        print("No records."); return
+    with open(SRMS_FILE, "r", encoding="utf-8") as f:
+        for line in f:
+            if not line.strip(): continue
+            s = Student.from_string(line)
+            if s.roll_no == roll:
+                print(f"Found -> {s.name} Avg: {s.average():.2f} Grade: {s.grade()} Status: {s.status()}")
+                return
+    print("Not found.")
+
+def srms_report():
+    if not os.path.exists(SRMS_FILE):
+        print("No records."); return
+    students = []
+    with open(SRMS_FILE, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                students.append(Student.from_string(line))
+    if not students:
+        print("No records."); return
+    total = len(students)
+    passed = sum(1 for s in students if s.status() == "Pass")
+    print("Total:", total)
+    print("Passed:", passed)
+    print("Failed:", total - passed)
+    print("Class Average:", sum(s.average() for s in students) / total)
+
+def srms_menu():
+    while True:
+        print("\nStudent Result Management System")
+        print("1) Add")
+        print("2) Display All")
+        print("3) Search by Roll")
+        print("4) Report")
+        print("5) Back")
+        ch = input("Choose 1-5: ").strip()
+        if ch == "1": srms_add(); pause()
+        elif ch == "2": srms_display(); pause()
+        elif ch == "3": srms_search(); pause()
+        elif ch == "4": srms_report(); pause()
+        elif ch == "5": break
+        else: print("Invalid.")
+
+# B) Banking System with File Storage
+BANK_FILE = "bank_accounts.txt"
+
+def bank_load():
+    accounts = {}
+    if os.path.exists(BANK_FILE):
+        with open(BANK_FILE, "r", encoding="utf-8") as f:
+            for line in f:
+                if line.strip():
+                    acc, bal = line.strip().split(",")
+                    accounts[acc] = float(bal)
+    return accounts
+
+def bank_save(accounts):
+    with open(BANK_FILE, "w", encoding="utf-8") as f:
+        for acc, bal in accounts.items():
+            f.write(f"{acc},{bal}\n")
+
+def bank_menu():
+    accounts = bank_load()
+    while True:
+        print("\nBanking System")
+        print("1) Create Account")
+        print("2) Deposit")
+        print("3) Withdraw")
+        print("4) Balance")
+        print("5) Save and Back")
+        ch = input("Choose 1-5: ").strip()
+        if ch == "1":
+            acc = input("Account name: ").strip()
+            if acc in accounts:
+                print("Exists.")
+            else:
+                accounts[acc] = 0.0; print("Created.")
+        elif ch == "2":
+            acc = input("Account name: ").strip()
+            if acc not in accounts: print("Not found."); continue
+            amt = input_float("Amount: ")
+            if amt > 0:
+                accounts[acc] += amt; print("Deposited.")
+            else:
+                print("Must be positive.")
+        elif ch == "3":
+            acc = input("Account name: ").strip()
+            if acc not in accounts: print("Not found."); continue
+            amt = input_float("Amount: ")
+            if amt <= 0: print("Must be positive.")
+            elif amt > accounts[acc]: print("Insufficient.")
+            else: accounts[acc] -= amt; print("Withdrew.")
+        elif ch == "4":
+            acc = input("Account name: ").strip()
+            print("Balance:", accounts.get(acc, "Not found."))
+        elif ch == "5":
+            bank_save(accounts); print("Saved."); break
+        else:
+            print("Invalid.")
+
+# C) Tic Tac Toe Game
+def print_board(b):
+    print("\n")
+    for i in range(0, 9, 3):
+        print(b[i] + "|" + b[i+1] + "|" + b[i+2])
+        if i < 6: print("-+-+-")
+    print("\n")
+
+def check_winner(b, p):
+    combos = [(0,1,2),(3,4,5),(6,7,8),
+              (0,3,6),(1,4,7),(2,5,8),
+              (0,4,8),(2,4,6)]
+    return any(b[a]==b[c]==b[d]==p for a,c,d in combos)
+
+def tic_tac_toe():
+    board = [" "]*9
+    player = "X"
+    for turn in range(9):
+        print_board(board)
+        while True:
+            pos = input_int(f"Player {player} position (1-9): ") - 1
+            if 0 <= pos < 9 and board[pos] == " ":
+                board[pos] = player
+                break
+            print("Invalid move.")
+        if check_winner(board, player):
+            print_board(board)
+            print("Player", player, "wins.")
+            return
+        player = "O" if player == "X" else "X"
+    print_board(board)
+    print("Draw.")
+
+# D) Expense Tracker
+EXP_FILE = "expenses.txt"
+
+def expense_add():
+    date = input("Date (YYYY-MM-DD): ").strip()
+    category = input("Category: ").strip()
+    amount = input_float("Amount: ")
+    with open(EXP_FILE, "a", encoding="utf-8") as f:
+        f.write(f"{date},{category},{amount}\n")
+    print("Saved.")
+
+def expense_summary():
+    if not os.path.exists(EXP_FILE):
+        print("No expenses."); return
+    total = 0.0
+    month_sums = {}
+    with open(EXP_FILE, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.strip():
+                date, cat, amt = line.strip().split(",")
+                amt = float(amt); total += amt
+                month = date[:7]
+                month_sums[month] = month_sums.get(month, 0.0) + amt
+    print("Total spent:", total)
+    for m, s in sorted(month_sums.items()):
+        print(m, ":", s)
+
+def expense_menu():
+    while True:
+        print("\nExpense Tracker")
+        print("1) Add expense")
+        print("2) Monthly summary")
+        print("3) Back")
+        ch = input("Choose 1-3: ").strip()
+        if ch == "1": expense_add(); pause()
+        elif ch == "2": expense_summary(); pause()
+        elif ch == "3": break
+        else: print("Invalid.")
+
+def final_projects_menu():
+    while True:
+        print("\n=== FINAL PROJECTS ===")
+        print("1) Student Result Management System")
+        print("2) Banking System with File Storage")
+        print("3) Tic Tac Toe (2 players)")
+        print("4) Expense Tracker")
+        print("5) Back")
+        ch = input("Choose 1-5: ").strip()
+        if ch == "1": srms_menu()
+        elif ch == "2": bank_menu()
+        elif ch == "3": tic_tac_toe(); pause()
+        elif ch == "4": expense_menu()
+        elif ch == "5": break
+        else: print("Invalid.")
+
+# -------------------------------
+# MASTER MAIN MENU
+# -------------------------------
+
+def main():
+    while True:
+        print("\n===== PYTHON LEARNING SUITE - MEGA PROJECT =====")
+        print("1) Basics")
+        print("2) Conditionals")
+        print("3) Loops")
+        print("4) Functions")
+        print("5) Strings")
+        print("6) Lists and Tuples")
+        print("7) Sets and Dictionaries")
+        print("8) File Handling")
+        print("9) Error Handling")
+        print("10) OOP")
+        print("11) Algorithms")
+        print("12) Final Projects")
+        print("13) Exit")
+        ch = input("Choose 1-13: ").strip()
+        if ch == "1": basics_menu()
+        elif ch == "2": conditionals_menu()
+        elif ch == "3": loops_menu()
+        elif ch == "4": functions_menu()
+        elif ch == "5": strings_menu()
+        elif ch == "6": lists_tuples_menu()
+        elif ch == "7": sets_dicts_menu()
+        elif ch == "8": file_handling_menu()
+        elif ch == "9": error_handling_menu()
+        elif ch == "10": oop_menu()
+        elif ch == "11": algorithms_menu()
+        elif ch == "12": final_projects_menu()
+        elif ch == "13":
+            print("Goodbye.")
+            break
+        else:
+            print("Invalid choice.")
+
+if _name_ == "_main_":
+    main()
